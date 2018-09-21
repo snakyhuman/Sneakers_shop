@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ParserLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,15 @@ namespace ParserApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        MarketItems Items = new MarketItems();
+
         public MainWindow()
         {
             InitializeComponent();
+
+            Items.ParseFrom("http://www.sports-lin777.com");
         }
+
+
     }
 }
