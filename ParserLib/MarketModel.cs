@@ -5,6 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using System.Text.RegularExpressions;
+using System.Drawing;
+using System.Net;
+using System.IO;
+using Microsoft.Office.Interop.Excel;
+using OfficeOpenXml;
+
 namespace ParserLib
 {
     //enum typeOfGoods
@@ -21,23 +27,64 @@ namespace ParserLib
     public class MarketItem
     {
         #region Properties
-        public int Model { get; set; } //сюда подставляется артикул ( номер по порядку) //выдается по последнему
+        /// <summary>
+        /// Артикул ( номер по порядку)
+        /// </summary>
+        public int Model { get; set; }
+        /// <summary>
+        /// Название Модели
+        /// </summary>
         public string Name { get; set; } // сюда название модели + значение из А1 // //h4/a
+                                         /// <summary>
+                                         /// Описание, по умолчанию, <p><br></p>
+                                         /// </summary>
         public string Description { get; set; } //<p><br></p>
+                                                /// <summary>
+                                                /// Название модели тоже
+                                                /// </summary>
         public string Meta_title { get; set; } //сюда название модели + значение из А1
+                                               /// <summary>
+                                               /// транскрипция
+                                               /// </summary>
         public string SEO_url { get; set; } //транскрипция с "-" вместо пробелов
+                                            /// <summary>
+                                            /// Количество пар размера
+                                            /// </summary>
         public string Quantity { get; set; } //количество пар размера
+                                             /// <summary>
+                                             /// Остаток
+                                             /// </summary>
         public string Out_stock_status { get; set; } //остаток
+                                                     /// <summary>
+                                                     ///Диапозон размеров 
+                                                     /// </summary>
         public string Option { get; set; } //сапоги женские 30-40
+                                           /// <summary>
+                                           /// По-умолчанию radio
+                                           /// </summary>
         public string Option_type { get; set; } //radio
+                                                /// <summary>
+                                                /// Размер
+                                                /// </summary>
         public string Option_value { get; set; } //размер
+                                                 /// <summary>
+                                                 /// Цена-ручками ставится
+                                                 /// </summary>
         public string Price { get; set; } //цена(проставляется в ручную)
+                                          /// <summary>
+                                          /// Марка (Адидас, Найк,...)
+                                          /// </summary>
         public string Manufacturer { get; set; } //производитель (Adidas)
+                                                 /// <summary>
+                                                 /// Картинка
+                                                 /// </summary>
         public string Main_image { get; set; } //Главная картинка
-        public string Options { get; set; }
+                                               /// <summary>
+                                               /// 
+                                               /// </summary>
 
         public List<MarketItem> ChildrenItems = new List<MarketItem>();
-
+        public string Error { get; internal set; }
         #region DONTUSE?
         //public string Meta_description { get; set; } //
         //public string Meta_keywords { get; set; } //
@@ -146,10 +193,26 @@ namespace ParserLib
         {
             return base.Equals(obj);
         }
+
+        public Image GetPhoto()
+        {
+            using (WebClient wClient = new WebClient())
+            {
+                byte[] imageByte = wClient.DownloadData(Main_image);
+
+                using (MemoryStream ms = new MemoryStream(imageByte, 0, imageByte.Length))
+                {
+                    ms.Write(imageByte, 0, imageByte.Length);
+                    return Image.FromStream(ms, true);
+                }
+            }
+        }
+
     }
 
     public class MarketItems : List<MarketItem>
     {
+       
         public MarketItems()
         {
 
@@ -162,7 +225,20 @@ namespace ParserLib
 
         public void Import()
         {
+            this.Clear();
+            using (ExcelPackage xlPackage = new ExcelPackage(new FileInfo(@"C:\YourDirectory\sample.xlsx")))
+            {
+                var Worksheet = xlPackage.Workbook.Worksheets.First(); //select sheet here
+                var totalRows = Worksheet.Dimension.End.Row;
+                var totalColumns = Worksheet.Dimension.End.Column;
 
+                var sb = new StringBuilder(); //this is your your data
+                for (int rowNum = 1; rowNum <= totalRows; rowNum++) //selet starting row here
+                {
+                    var row = Worksheet.Cells[rowNum, 1, rowNum, totalColumns].Select(c => c.Value == null ? string.Empty : c.Value.ToString());
+                    sb.AppendLine(string.Join(",", row));
+                }
+            }
         }
 
         public void Export()
@@ -183,7 +259,7 @@ namespace ParserLib
         private string Option(List<int> list)
         {
 
-            if(list.Count == 1)
+            if (list.Count == 1)
             {
                 return list.FirstOrDefault().ToString();
             }
@@ -200,6 +276,11 @@ namespace ParserLib
                                                @"(\d*)(页&n)").Groups[1].Value);
         }
 
+        public int GoodsInPage(string url)
+        {
+            return new HtmlWeb().Load(url + "/goods.php").DocumentNode.SelectNodes("//div[@class='ernr']").Count();
+        }
+
         public void ParseFrom(string url)
         {
             try
@@ -211,7 +292,7 @@ namespace ParserLib
                 {
                     doc = new HtmlWeb().Load(url + "/goods.php?cid=5&page=" + page); //текущая страница
                     var pageGoods = doc.DocumentNode.SelectNodes("//div[@class='ernr']/ul/li/div/h3/a").
-                                                     Select(a=> url+"/"+ a.ChildAttributes("href").
+                                                     Select(a => url + "/" + a.ChildAttributes("href").
                                                      FirstOrDefault().Value); //ссылки на все товары на странице
                     if (pageGoods.Count() == 0)
                     {
@@ -220,42 +301,50 @@ namespace ParserLib
                     }
                     else
                     {
-                        foreach(var good in pageGoods.ToList())
+                        foreach (var good in pageGoods.ToList())
                         {
-                            
                             MarketItem item = new MarketItem();//будем заполнять товар
-                            var goodNode = new HtmlWeb().Load(good).DocumentNode.SelectSingleNode("//div[@class='cps']"); //html товара. отсюда и вытащим всё
-                            var Options = ConvertList(goodNode.SelectNodes(".//div[@class='tabmen']/ul/li").Select(a => a.InnerText).ToList()); 
-                            var Quantities = ConvertList(goodNode.SelectNodes(".//div[@id='tabconten']/ul/li").Select(a=>a.InnerText.Replace("双", "")).ToList());//
-                            item.Model = this.Count != 0 ?this.Max(a=>a.Model)+1 : 1;
-                            item.Name = goodNode.SelectSingleNode(".//h6").InnerText;
-                            item.Description = "<p><br></p>";
-                            item.SEO_url = item.Name.Replace(" ", "-");
-                            item.Out_stock_status = "";
-                            item.Option_type = "radio";
-                            item.Price = "";//сам вводит
-                            item.Main_image = url + goodNode.SelectSingleNode(".//img").ChildAttributes("src").FirstOrDefault().Value;
-                            /*TODO*/item.Manufacturer = item.Name.Contains("adidas").ToString();
-                            item.Option = Option(Options);
-
-                            //по парам
-                            item.Quantity = Quantities.First().ToString();
-                            item.Option_value = Options.First().ToString();
-                            if (Options.Count == Quantities.Count)
+                            try
                             {
-                                if (Options.Count > 1)
+                                var goodNode = new HtmlWeb().Load(good).DocumentNode.SelectSingleNode("//div[@class='cps']"); //html товара. отсюда и вытащим всё
+                                var Options = ConvertList(goodNode.SelectNodes(".//div[@class='tabmen']/ul/li").Select(a => a.InnerText).ToList());
+                                var Quantities = ConvertList(goodNode.SelectNodes(".//div[@id='tabconten']/ul/li").Select(a => a.InnerText.Replace("双", "")).ToList());//
+                                item.Model = this.Count != 0 ? this.Max(a => a.Model) + 1 : 1;
+                                item.Name = goodNode.SelectSingleNode(".//h6").InnerText;
+                                item.Description = "<p><br></p>";
+                                item.SEO_url = item.Name.Replace(" ", "-");
+                                item.Out_stock_status = "";
+                                item.Option_type = "radio";
+                                item.Price = "";//сам вводит
+                                item.Main_image = url + goodNode.SelectSingleNode(".//img").ChildAttributes("src").FirstOrDefault().Value;
+                                /*TODO*/
+                                item.Manufacturer = item.Name.Contains("adidas").ToString();
+                                item.Option = Option(Options);
+
+                                //по парам
+                                item.Quantity = Quantities.First().ToString();
+                                item.Option_value = Options.First().ToString();
+                                if (Options.Count == Quantities.Count)
                                 {
-                                    for (int i = 0; i < Options.Count; i++)
+                                    if (Options.Count > 1)
                                     {
-                                        MarketItem child = new MarketItem();
-                                        child = item;
-                                        child.Quantity = Quantities[i].ToString();
-                                        child.Option = Options[i].ToString();
-                                        item.ChildrenItems.Add(child);
+                                        for (int i = 0; i < Options.Count; i++)
+                                        {
+                                            MarketItem child = new MarketItem();
+                                            child = item;
+                                            child.Quantity = Quantities[i].ToString();
+                                            child.Option = Options[i].ToString();
+                                            item.ChildrenItems.Add(child);
+                                        }
                                     }
-                                }                                
+                                }
+                                else throw new Exception();
                             }
-                            else throw new Exception();
+                            catch (Exception exception)
+                            {
+
+                                item.Error = exception.Message.ToString();
+                            }
 
                             this.Add(item);//после парсинга страницы добавляем элемент
                         }
@@ -270,7 +359,7 @@ namespace ParserLib
 
         public async Task ParseAsync(string url)
         {
-             ParseFrom(url);
+            ParseFrom(url);
         }
     }
 
