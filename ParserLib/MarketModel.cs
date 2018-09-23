@@ -529,7 +529,7 @@ namespace ParserLib
                                 item.Option_type = "radio";
                                 item.Price = "";//сам вводит
                                 item.Meta_title = item.Name;
-                                item.Main_image = url + goodNode.SelectSingleNode(".//img").ChildAttributes("src").FirstOrDefault().Value;
+                                item.Main_image = url +"/"+ goodNode.SelectSingleNode(".//img").ChildAttributes("src").FirstOrDefault().Value;
                                 /*TODO*/
                                 item.Manufacturer = Manuf(item.Name);
                                 item.Option = MarketItems.Option(Options);
