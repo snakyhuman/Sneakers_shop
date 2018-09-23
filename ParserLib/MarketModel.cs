@@ -189,6 +189,7 @@ namespace ParserLib
         {
 
         }
+
         public MarketItem(int Model, string Name, string Description, string Meta_title, string SEO_url, string Quantity, string Out_stock_status,
             string Option, string Option_type, string Option_Value, string Price, string Manufacturer, string MainImage)
         {
@@ -206,8 +207,18 @@ namespace ParserLib
             this.Manufacturer = Manufacturer;
             this.Main_image = Main_image;
         }
+        public override string ToString()
+        {
+            return Model + "; " + Name + " " + Model + "; " + Description + "; " + Meta_title + " " + Model + "; " +
+                SEO_url + "; " + Quantity + "; " + Out_stock_status + "; " + Option + "; " + Option_type + "; " +
+                Option_value + "; " + Price + "; " + Manufacturer;
+        }
         public override bool Equals(object obj)
         {
+            //if()
+            //{
+
+            //}
             return base.Equals(obj);
         }
 
@@ -314,8 +325,118 @@ namespace ParserLib
 
         }
 
-        public void Export()
+
+        public static void Export(string filename, MarketItems item)
         {
+            MarketItems items = new MarketItems();
+            foreach(var a in item)
+            {
+                items.Add(a);
+                if(a.ChildrenItems.Count != 0)
+                {
+                    foreach (var b in a.ChildrenItems)
+                    {
+                        items.Add(b);
+                    }
+                }
+            }
+
+            using (ExcelPackage xlPackage = new ExcelPackage(new FileInfo(filename)))
+            {
+                var Worksheet = xlPackage.Workbook.Worksheets.First(); //select sheet here
+                var totalRows = Worksheet.Dimension.End.Row;
+                var totalColumns = Worksheet.Dimension.End.Column;
+                Dictionary<string, List<string>> Colls = new Dictionary<string, List<string>>();
+                for (int col = 1; col <= totalColumns; col++)
+                {
+                    if(Worksheet.Cells[1,col].Value.ToString() == "*Model")
+                    {
+                        for(int i = 0; i<items.Count; i++)
+                        {
+                            Worksheet.Cells[i + 2, col, i + 2, col].Value = items[i].Model;
+                        }
+                    }
+                    if (Worksheet.Cells[1, col].Value.ToString() == "*Name")
+                    {
+                        for (int i = 0; i < items.Count; i++)
+                        {
+                            Worksheet.Cells[i + 2, col, i + 2, col].Value = items[i].Name;
+                        }
+                    }
+                    if (Worksheet.Cells[1, col].Value.ToString() == "Description")
+                    {
+                        for (int i = 0; i < items.Count; i++)
+                        {
+                            Worksheet.Cells[i + 2, col, i + 2, col].Value = items[i].Description;
+                        }
+                    }
+                    if (Worksheet.Cells[1, col].Value.ToString() == "Meta title")
+                    {
+                        for (int i = 0; i < items.Count; i++)
+                        {
+                            Worksheet.Cells[ + 2, col, i + 2, col].Value = items[i].Meta_title;
+                        }
+                    }
+                    if (Worksheet.Cells[1, col].Value.ToString() == "SEO url")
+                    {
+                        for (int i = 0; i < items.Count; i++)
+                        {
+                            Worksheet.Cells[i + 2, col, i + 2, col].Value = items[i].SEO_url;
+                        }
+                    }
+                    if (Worksheet.Cells[1, col].Value.ToString() == "Quantity")
+                    {
+                        for (int i = 0; i < items.Count; i++)
+                        {
+                            Worksheet.Cells[i + 2, col, i + 2, col].Value = items[i].Quantity;
+                        }
+                    }
+                    if (Worksheet.Cells[1, col].Value.ToString() == "Out stock status")
+                    {
+                        for (int i = 0; i < items.Count; i++)
+                        {
+                            Worksheet.Cells[i + 2, col, i + 2, col].Value = items[i].Out_stock_status;
+                        }
+                    }
+                    if (Worksheet.Cells[1, col].Value.ToString() == "Option")
+                    {
+                        for (int i = 0; i < items.Count; i++)
+                        {
+                            Worksheet.Cells[i + 2, col, i + 2, col].Value = items[i].Option;
+                        }
+                    }
+                    if (Worksheet.Cells[1, col].Value.ToString() == "Option value")
+                    {
+                        for (int i = 0; i < items.Count; i++)
+                        {
+                            Worksheet.Cells[i + 2, col, i + 2, col].Value = items[i].Option_value;
+                        }
+                    }
+                    if (Worksheet.Cells[1, col].Value.ToString() == "Price")
+                    {
+                        for (int i = 0; i < items.Count; i++)
+                        {
+                            Worksheet.Cells[i + 2, col, i + 2, col].Value = items[i].Price;
+                        }
+                    }
+                    if (Worksheet.Cells[1, col].Value.ToString() == "Manufacturer")
+                    {
+                        for (int i = 0; i < items.Count; i++)
+                        {
+                            Worksheet.Cells[i + 2, col, i + 2, col].Value = items[i].Manufacturer;
+                        }
+                    }
+                    if (Worksheet.Cells[1, col].Value.ToString() == "Main image")
+                    {// "catalog/tovar/" + a.Model+".jpg"
+                     
+                        for (int i = 0; i < items.Count; i++)
+                        {
+                            Worksheet.Cells[i + 2, col, i + 2, col].Value = "catalog/tovar/" + items[i].Model+".jpg";
+                        }
+                    }
+                    xlPackage.Save();
+                }
+            }
         }
 
         public static List<int> ConvertList(List<string> list)
@@ -352,10 +473,28 @@ namespace ParserLib
         {
             return new HtmlWeb().Load(url + "/goods.php").DocumentNode.SelectNodes("//div[@class='ernr']").Count();
         }
-
-        public static MarketItems ParseFrom(string url)
+        private string Manuf(string name)
         {
-            MarketItems res = new MarketItems();
+            string res = String.Empty;
+            string[] vs = new string[]
+            {
+                "Nike","Puma","Reebok","Timberland","UGG","Vans","Converse","New Balance","Jordan","Asics","Adidas" };
+            foreach (var a in vs)
+            {
+                if (name.ToLower().Contains(a.ToLower()))
+                {
+                    res = a;
+                    break;
+                }
+
+            }
+            return res;
+
+        }
+
+        public void ParseFrom(string url)
+        {
+
             try
             {
                 var doc = new HtmlWeb().Load(url + "/goods.php");
@@ -382,16 +521,17 @@ namespace ParserLib
                                 var goodNode = new HtmlWeb().Load(good).DocumentNode.SelectSingleNode("//div[@class='cps']"); //html товара. отсюда и вытащим всё
                                 var Options = MarketItems.ConvertList(goodNode.SelectNodes(".//div[@class='tabmen']/ul/li").Select(a => a.InnerText).ToList());
                                 var Quantities = ConvertList(goodNode.SelectNodes(".//div[@id='tabconten']/ul/li").Select(a => a.InnerText.Replace("双", "")).ToList());//
-                                item.Model = res.Count != 0 ? res.Max(a => a.Model) + 1 : 1;
-                                item.Name = goodNode.SelectSingleNode(".//h6").InnerText;
+                                item.Model = Count != 0 ? this.Max(a => a.Model) + 1 : 1;
+                                item.Name = goodNode.SelectSingleNode(".//h6").InnerText + " " + item.Model;
                                 item.Description = "<p><br></p>";
                                 item.SEO_url = item.Name.Replace(" ", "-");
                                 item.Out_stock_status = "";
                                 item.Option_type = "radio";
                                 item.Price = "";//сам вводит
+                                item.Meta_title = item.Name;
                                 item.Main_image = url + goodNode.SelectSingleNode(".//img").ChildAttributes("src").FirstOrDefault().Value;
                                 /*TODO*/
-                                item.Manufacturer = item.Name.Contains("adidas").ToString();
+                                item.Manufacturer = Manuf(item.Name);
                                 item.Option = MarketItems.Option(Options);
 
                                 //по парам
@@ -401,12 +541,19 @@ namespace ParserLib
                                 {
                                     if (Options.Count > 1)
                                     {
-                                        for (int i = 0; i < Options.Count; i++)
+                                        for (int i = 1; i < Options.Count; i++)
                                         {
                                             MarketItem child = new MarketItem();
-                                            child = item;
+                                            child.Model = item.Model;
+                                            child.Name = item.Name;
+                                            child.Description = "";
+                                            child.Meta_title = "";
+                                            child.SEO_url = "";
+                                            child.Option = item.Option;
+                                            child.Option_type = item.Option_type;
+                                            child.Main_image = "";
                                             child.Quantity = Quantities[i].ToString();
-                                            child.Option = Options[i].ToString();
+                                            child.Option_value = Options[i].ToString();
                                             item.ChildrenItems.Add(child);
                                         }
                                     }
@@ -419,7 +566,7 @@ namespace ParserLib
                                 item.Error = exception.Message.ToString();
                             }
 
-                            res.Add(item);//после парсинга страницы добавляем элемент
+                            Add(item);//после парсинга страницы добавляем элемент
                         }
                     }
                 }
@@ -428,12 +575,12 @@ namespace ParserLib
             {
                 throw new Exception("Произошла ошибка при попытке получить страницу по адресу: " + url + "\n\t\t" + e.Message + "\nПожалуйста, проверьте правильность ввода ресурса!");
             }
-            return res;
         }
 
-        public async Task<MarketItems> ParseAsync(string url)
+        public async Task<bool> ParseAsync(string url)
         {
-            return await Task.Run(() => ParseFrom(url));
+            await Task.Run(() => this.ParseFrom(url));
+            return true;
         }
     }
 
