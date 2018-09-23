@@ -18,5 +18,24 @@ namespace Client
         {
             InitializeComponent();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog fd = new OpenFileDialog())
+            {
+                if (fd.ShowDialog() == DialogResult.OK)
+                {
+
+                    try
+                    {
+                        richTextBox1.Text = (Items = MarketItems.Import(fd.FileName)).ToList().ToString();
+                    }
+                    catch
+                    {
+                        richTextBox1.Text = "Говно твой код";
+                    }
+                }
+            }
+        }
     }
 }

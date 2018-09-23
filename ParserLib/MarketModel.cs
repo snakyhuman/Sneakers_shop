@@ -189,6 +189,23 @@ namespace ParserLib
         {
 
         }
+        public MarketItem(int Model, string Name, string Description, string Meta_title, string SEO_url, string Quantity, string Out_stock_status,
+            string Option, string Option_type, string Option_Value, string Price, string Manufacturer, string MainImage)
+        {
+            this.Model = Model;
+            this.Name = Name;
+            this.Description = Description;
+            this.Meta_title = Meta_title;
+            this.SEO_url = SEO_url;
+            this.Quantity = Quantity;
+            this.Out_stock_status = Out_stock_status;
+            this.Option = Option;
+            this.Option_type = Option_type;
+            this.Option_value = Option_value;
+            this.Price = Price;
+            this.Manufacturer = Manufacturer;
+            this.Main_image = Main_image;
+        }
         public override bool Equals(object obj)
         {
             return base.Equals(obj);
@@ -212,7 +229,7 @@ namespace ParserLib
 
     public class MarketItems : List<MarketItem>
     {
-       
+
         public MarketItems()
         {
 
@@ -223,30 +240,85 @@ namespace ParserLib
             return base.ToString();
         }
 
-        public void Import()
+        public static MarketItems Import(string filename)
         {
-            this.Clear();
-            using (ExcelPackage xlPackage = new ExcelPackage(new FileInfo(@"C:\YourDirectory\sample.xlsx")))
+            using (ExcelPackage xlPackage = new ExcelPackage(new FileInfo(filename)))
             {
+
+
                 var Worksheet = xlPackage.Workbook.Worksheets.First(); //select sheet here
                 var totalRows = Worksheet.Dimension.End.Row;
                 var totalColumns = Worksheet.Dimension.End.Column;
 
-                var sb = new StringBuilder(); //this is your your data
-                for (int rowNum = 1; rowNum <= totalRows; rowNum++) //selet starting row here
+                //  var sb = new StringBuilder(); //this is your your data
+                Dictionary<string, List<string>> Colls = new Dictionary<string, List<string>>();
+                for (int col = 1; col <= totalColumns; col++)
                 {
-                    var row = Worksheet.Cells[rowNum, 1, rowNum, totalColumns].Select(c => c.Value == null ? string.Empty : c.Value.ToString());
-                    sb.AppendLine(string.Join(",", row));
+                    var Column = Worksheet.Cells[1, col, totalRows, col].
+                        Select(x => x.Value == null ? " " : x.Value.ToString()).ToList();
+                    Colls.Add(Column.First(), Column);
                 }
+
+                MarketItems result = new MarketItems();
+
+                for (int i = 1; i < Colls["*Model"].Count - 1; i++)
+                {
+                    try
+                    {
+                        if ((Colls["*Model"][i] == Colls["*Model"][i - 1]) && (result.Last() != null))
+                        {
+                            result.Last().ChildrenItems.Add(new MarketItem
+                            {
+                                Model = Convert.ToInt32(Colls["*Model"][i]),
+                                Name = Colls["*Name"][i],
+                                Description = result.Last().Description,
+                                Meta_title = result.Last().Meta_title,
+                                SEO_url = result.Last().SEO_url,
+                                Quantity = Colls["Quantity"][i],
+                                Out_stock_status = result.Last().Out_stock_status,
+                                Option = result.Last().Option,
+                                Option_value = Colls["Option value"][i],
+                                Price = Colls["Price"][i],
+                                Manufacturer = result.Last().Manufacturer,
+                                Main_image = result.Last().Main_image
+                            });
+                        }
+                        else
+                        {
+                            result.Add(new MarketItem
+                            {
+                                Model = Convert.ToInt32(Colls["*Model"][i]),
+                                Name = Colls["*Name"][i],
+                                Description = Colls["Description"][i],
+                                Meta_title = Colls["Meta title"][i],
+                                SEO_url = Colls["SEO url"][i],
+                                Quantity = Colls["Quantity"][i],
+                                Out_stock_status = Colls["Out stock status"][i],
+                                Option = Colls["Option"][i],
+                                Option_value = Colls["Option value"][i],
+                                Price = Colls["Price"][i],
+                                Manufacturer = Colls["Manufacturer"][i],
+                                Main_image = Colls["Main image"][i]
+                            });
+                        }
+                    }
+                    catch
+                    {
+                        result.Add(new MarketItem());
+                    }
+                }
+
+
+                return result;
             }
+
         }
 
         public void Export()
         {
-
         }
 
-        private List<int> ConvertList(List<string> list)
+        public static List<int> ConvertList(List<string> list)
         {
             List<int> IntOpt = new List<int>();
             foreach (var item in list)
@@ -256,7 +328,7 @@ namespace ParserLib
             return IntOpt;
         }
 
-        private string Option(List<int> list)
+        public static string Option(List<int> list)
         {
 
             if (list.Count == 1)
@@ -269,24 +341,25 @@ namespace ParserLib
             }
         }
 
-        public int PageCount(string url)
+        public static int PageCount(string url)
         {
             var doc = new HtmlWeb().Load(url + "/goods.php");
             return Convert.ToInt32(Regex.Match(doc.DocumentNode.SelectSingleNode("//div[@class='sxy']/form").InnerText,
                                                @"(\d*)(页&n)").Groups[1].Value);
         }
 
-        public int GoodsInPage(string url)
+        public static int GoodsInPage(string url)
         {
             return new HtmlWeb().Load(url + "/goods.php").DocumentNode.SelectNodes("//div[@class='ernr']").Count();
         }
 
-        public void ParseFrom(string url)
+        public static MarketItems ParseFrom(string url)
         {
+            MarketItems res = new MarketItems();
             try
             {
                 var doc = new HtmlWeb().Load(url + "/goods.php");
-                int pageCount = PageCount(url);
+                int pageCount = MarketItems.PageCount(url);
                 //проверка по пагинации
                 for (int page = 1; page <= pageCount; page++)
                 {
@@ -307,9 +380,9 @@ namespace ParserLib
                             try
                             {
                                 var goodNode = new HtmlWeb().Load(good).DocumentNode.SelectSingleNode("//div[@class='cps']"); //html товара. отсюда и вытащим всё
-                                var Options = ConvertList(goodNode.SelectNodes(".//div[@class='tabmen']/ul/li").Select(a => a.InnerText).ToList());
+                                var Options = MarketItems.ConvertList(goodNode.SelectNodes(".//div[@class='tabmen']/ul/li").Select(a => a.InnerText).ToList());
                                 var Quantities = ConvertList(goodNode.SelectNodes(".//div[@id='tabconten']/ul/li").Select(a => a.InnerText.Replace("双", "")).ToList());//
-                                item.Model = this.Count != 0 ? this.Max(a => a.Model) + 1 : 1;
+                                item.Model = res.Count != 0 ? res.Max(a => a.Model) + 1 : 1;
                                 item.Name = goodNode.SelectSingleNode(".//h6").InnerText;
                                 item.Description = "<p><br></p>";
                                 item.SEO_url = item.Name.Replace(" ", "-");
@@ -319,7 +392,7 @@ namespace ParserLib
                                 item.Main_image = url + goodNode.SelectSingleNode(".//img").ChildAttributes("src").FirstOrDefault().Value;
                                 /*TODO*/
                                 item.Manufacturer = item.Name.Contains("adidas").ToString();
-                                item.Option = Option(Options);
+                                item.Option = MarketItems.Option(Options);
 
                                 //по парам
                                 item.Quantity = Quantities.First().ToString();
@@ -346,7 +419,7 @@ namespace ParserLib
                                 item.Error = exception.Message.ToString();
                             }
 
-                            this.Add(item);//после парсинга страницы добавляем элемент
+                            res.Add(item);//после парсинга страницы добавляем элемент
                         }
                     }
                 }
@@ -355,11 +428,12 @@ namespace ParserLib
             {
                 throw new Exception("Произошла ошибка при попытке получить страницу по адресу: " + url + "\n\t\t" + e.Message + "\nПожалуйста, проверьте правильность ввода ресурса!");
             }
+            return res;
         }
 
-        public async Task ParseAsync(string url)
+        public async Task<MarketItems> ParseAsync(string url)
         {
-            ParseFrom(url);
+            return await Task.Run(() => ParseFrom(url));
         }
     }
 
