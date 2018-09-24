@@ -185,54 +185,31 @@ namespace ParserLib
         //public string Layout { get; set; } //
         #endregion  
         #endregion
+
         public MarketItem()
         {
 
         }
-
-        public MarketItem(int Model, string Name, string Description, string Meta_title, string SEO_url, string Quantity, string Out_stock_status,
-            string Option, string Option_type, string Option_Value, string Price, string Manufacturer, string MainImage)
-        {
-            this.Model = Model;
-            this.Name = Name;
-            this.Description = Description;
-            this.Meta_title = Meta_title;
-            this.SEO_url = SEO_url;
-            this.Quantity = Quantity;
-            this.Out_stock_status = Out_stock_status;
-            this.Option = Option;
-            this.Option_type = Option_type;
-            this.Option_value = Option_value;
-            this.Price = Price;
-            this.Manufacturer = Manufacturer;
-            this.Main_image = Main_image;
-        }
-        public override string ToString()
-        {
-            return Model + "; " + Name + " " + Model + "; " + Description + "; " + Meta_title + " " + Model + "; " +
-                SEO_url + "; " + Quantity + "; " + Out_stock_status + "; " + Option + "; " + Option_type + "; " +
-                Option_value + "; " + Price + "; " + Manufacturer;
-        }
-        public override bool Equals(object obj)
-        {
-            //if()
-            //{
-
-            //}
-            return base.Equals(obj);
-        }
-
+   
         public Image GetPhoto()
         {
             using (WebClient wClient = new WebClient())
             {
-                byte[] imageByte = wClient.DownloadData(Main_image);
-
-                using (MemoryStream ms = new MemoryStream(imageByte, 0, imageByte.Length))
+                try
                 {
-                    ms.Write(imageByte, 0, imageByte.Length);
-                    return Image.FromStream(ms, true);
+                    byte[] imageByte = wClient.DownloadData(Main_image);
+
+                    using (MemoryStream ms = new MemoryStream(imageByte, 0, imageByte.Length))
+                    {
+                        ms.Write(imageByte, 0, imageByte.Length);
+                        return Image.FromStream(ms, true);
+                    }
                 }
+                catch 
+                {
+                    return null;
+                }
+                
             }
         }
 
@@ -374,7 +351,7 @@ namespace ParserLib
                     {
                         for (int i = 0; i < items.Count; i++)
                         {
-                            Worksheet.Cells[ + 2, col, i + 2, col].Value = items[i].Meta_title;
+                            Worksheet.Cells[i + 2, col, i + 2, col].Value = items[i].Meta_title;
                         }
                     }
                     if (Worksheet.Cells[1, col].Value.ToString() == "SEO url")
@@ -466,19 +443,25 @@ namespace ParserLib
         {
             var doc = new HtmlWeb().Load(url + "/goods.php");
             return Convert.ToInt32(Regex.Match(doc.DocumentNode.SelectSingleNode("//div[@class='sxy']/form").InnerText,
-                                               @"(\d*)(页&n)").Groups[1].Value);
+                                              @"(\d*)(页&n)").Groups[1].Value);
+
         }
 
         public static int GoodsInPage(string url)
         {
             return new HtmlWeb().Load(url + "/goods.php").DocumentNode.SelectNodes("//div[@class='ernr']").Count();
         }
+
         private string Manuf(string name)
         {
             string res = String.Empty;
             string[] vs = new string[]
             {
-                "Nike","Puma","Reebok","Timberland","UGG","Vans","Converse","New Balance","Jordan","Asics","Adidas" };
+                "Nike","Puma","Reebok","Timberland","UGG","Vans","Converse","New Balance",
+                "Jordan","Asics","Adidas", "Gel lyte", "GL6000", "tubular defiant",
+                "support eqt", "Terrex Trailmaker"
+            };
+
             foreach (var a in vs)
             {
                 if (name.ToLower().Contains(a.ToLower()))
@@ -494,7 +477,6 @@ namespace ParserLib
 
         public void ParseFrom(string url)
         {
-
             try
             {
                 var doc = new HtmlWeb().Load(url + "/goods.php");
@@ -509,7 +491,6 @@ namespace ParserLib
                     if (pageGoods.Count() == 0)
                     {
                         throw new Exception("Товары не найдены!\nВозможно, сайт поменял верстку. Требуется обновить ПО!");
-
                     }
                     else
                     {
@@ -521,19 +502,32 @@ namespace ParserLib
                                 var goodNode = new HtmlWeb().Load(good).DocumentNode.SelectSingleNode("//div[@class='cps']"); //html товара. отсюда и вытащим всё
                                 var Options = MarketItems.ConvertList(goodNode.SelectNodes(".//div[@class='tabmen']/ul/li").Select(a => a.InnerText).ToList());
                                 var Quantities = ConvertList(goodNode.SelectNodes(".//div[@id='tabconten']/ul/li").Select(a => a.InnerText.Replace("双", "")).ToList());//
+
                                 item.Model = Count != 0 ? this.Max(a => a.Model) + 1 : 1;
+                                
                                 item.Name = goodNode.SelectSingleNode(".//h6").InnerText + " " + item.Model;
                                 item.Description = "<p><br></p>";
                                 item.SEO_url = item.Name.Replace(" ", "-");
                                 item.Out_stock_status = "";
                                 item.Option_type = "radio";
-                                item.Price = "";//сам вводит
-                                item.Meta_title = item.Name;
+                                item.Price = "";//сам вводит                                
                                 item.Main_image = url +"/"+ goodNode.SelectSingleNode(".//img").ChildAttributes("src").FirstOrDefault().Value;
                                 /*TODO*/
                                 item.Manufacturer = Manuf(item.Name);
                                 item.Option = MarketItems.Option(Options);
-
+                                string resName = "";
+                                if(item.Manufacturer.Contains("Timber"))
+                                {
+                                    resName += "Ботинки";
+                                }
+                                else { resName += "Кроссовки"; }
+                                if (Options.Min() <= 36)
+                                {
+                                    resName += " Женские ";
+                                }
+                                else resName += " Мужские ";
+                                item.Name = resName + goodNode.SelectSingleNode(".//h6").InnerText + " " + item.Model;
+                                item.Meta_title = item.Name;
                                 //по парам
                                 item.Quantity = Quantities.First().ToString();
                                 item.Option_value = Options.First().ToString();
@@ -565,7 +559,6 @@ namespace ParserLib
 
                                 item.Error = exception.Message.ToString();
                             }
-
                             Add(item);//после парсинга страницы добавляем элемент
                         }
                     }
@@ -576,6 +569,8 @@ namespace ParserLib
                 throw new Exception("Произошла ошибка при попытке получить страницу по адресу: " + url + "\n\t\t" + e.Message + "\nПожалуйста, проверьте правильность ввода ресурса!");
             }
         }
+
+
 
         public async Task<bool> ParseAsync(string url)
         {

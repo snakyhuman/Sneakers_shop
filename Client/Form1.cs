@@ -24,8 +24,8 @@ namespace Client
         {
             InitializeComponent();
 
-            dataGridView2.DataSource = Imp_source;
-            dataGridView1.DataSource = source;
+            //dataGridView2.DataSource = Imp_source;
+            ParseGrid.DataSource = source;
         }
 
 
@@ -35,17 +35,18 @@ namespace Client
             try
             {
                 progressBar1.Maximum = MarketItems.PageCount("http://www.sports-lin777.com") * 16;
-                timer1.Interval = 500;
+                timer1.Interval = 1000;
                 timer1.Start();
-                dataGridView1.ReadOnly = true;
+                ParseGrid.ReadOnly = true;
                 Parse_Button.Enabled = false;
                 if (await Items.ParseAsync("http://www.sports-lin777.com") == true)
                 {
                     MessageBox.Show("Парсинг закончен");
-                    button1.Enabled = true;
-                    dataGridView1.ReadOnly = false;
+                    SavePhoto.Enabled = true;
+                    ParseGrid.ReadOnly = false;
                     Parse_Button.Enabled = true;
-                    button4.Enabled = true;
+                    Save_Button.Enabled = true;
+                    Reload.Checked = false;
                 }
 
             }
@@ -58,13 +59,15 @@ namespace Client
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            label1.Text = "Всего элементов: " + Items.Count;
-            if (checkBox1.Checked)
-            {
+            label1.Text = "Всего элементов: " + Items.Count+" из~ "+ progressBar1.Maximum;
+            if (progressBar1.Maximum >= Items.Count)                
+            { progressBar1.Value = Items.Count; }
+            progressBar1.Refresh();
+            if (Reload.Checked)
+            {  
 
-                progressBar1.Value = Items.Count;
-                progressBar1.Refresh();
-                dataGridView1.Refresh();
+                
+                ParseGrid.Refresh();
                 //BindingSource source = new BindingSource(Items.ToArray(),"");
                 // source.Clear();            
                 try
@@ -86,33 +89,16 @@ namespace Client
                 }
                 catch
                 {
-
                 }
 
             }
 
             //dataGridView1.DataSource = source;
-        }
+        }        
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
+  
 
-        }
-
-        private void dataGridView1_Paint(object sender, PaintEventArgs e)
-        {
-
-
-
-
-        }
-
-        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-            flowLayoutPanel1.Dock = DockStyle.Bottom;
-        }
-
-        private async void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
             using (FolderBrowserDialog fd = new FolderBrowserDialog())
             {
@@ -120,7 +106,11 @@ namespace Client
                 {
                     foreach (var a in Items)
                     {
-                        await Task.Run(() => a.GetPhoto().Save(fd.SelectedPath + "/" + a.Model+".jpg"));
+                        WebClient client = new WebClient();
+                        Uri uri = new Uri(a.Main_image);
+                        client.DownloadFileAsync(uri, fd.SelectedPath + "/" + a.Model + ".jpg");
+                       
+                        //await Task.Run(() => a.GetPhoto().Save(fd.SelectedPath + "/" + a.Model+".jpg"));
                     }
                 }
             }
@@ -132,50 +122,49 @@ namespace Client
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            using (OpenFileDialog fd = new OpenFileDialog())
-            {
-                fd.Filter = "Excel Documents|*.xlsx";
-                if (fd.ShowDialog() == DialogResult.OK)
-                {
-                    try
-                    {
-                        Imported = MarketItems.Import(fd.FileName);
-                        Imp_source.Clear();
-                        foreach (var a in Imported)
-                        {
-                            Imp_source.Add(a);
-                        }
-                        if (Imported.Count != 0) button3.Enabled = true;
-                        dataGridView2.Refresh();
-                    }
-                    catch (Exception exception)
-                    {
+        //private void button2_Click(object sender, EventArgs e)
+        //{
+        //    using (OpenFileDialog fd = new OpenFileDialog())
+        //    {
+        //        fd.Filter = "Excel Documents|*.xlsx";
+        //        if (fd.ShowDialog() == DialogResult.OK)
+        //        {
+        //            try
+        //            {
+        //                Imported = MarketItems.Import(fd.FileName);
+        //                Imp_source.Clear();
+        //                foreach (var a in Imported)
+        //                {
+        //                    Imp_source.Add(a);
+        //                }
+        //                if (Imported.Count != 0) button3.Enabled = true;
+        //                dataGridView2.Refresh();
+        //            }
+        //            catch (Exception exception)
+        //            {
 
-                        MessageBox.Show(exception.Message);
-                    }
-                }
-            }
-        }
+        //                MessageBox.Show(exception.Message);
+        //            }
+        //        }
+        //    }
+        //}
 
         private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog fd = new OpenFileDialog())
-            { fd.Filter = "Excel Documents|*.xlsx";
+            {
+                fd.Filter = "Excel Documents|*.xlsx";
 
                 if (fd.ShowDialog() == DialogResult.OK)
                 {
                     MarketItems.Export(fd.FileName, Items);
                 }
-            }
-                
+            }                
         }
 
         private void Form1_SizeChanged(object sender, EventArgs e)
         {
-            dataGridView2.Width = this.Width - flowLayoutPanel3.Width - 50;
-            dataGridView2.Height = this.Height - 150;
+           
         }
 
         private void оПрограммеToolStripMenuItem_Click(object sender, EventArgs e)
@@ -197,6 +186,44 @@ namespace Client
                 {
                     MarketItems.Export(fd.FileName, Imported);
                 }
+            }
+        }
+
+        private void Reload_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void ParseGrid_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var a = source[ParseGrid.CurrentRow.Index];
+            ParseGrid.CurrentRow.Selected = true;
+            var CurrentItem =(MarketItem)a;
+            CurrentItemGroupBox.Text = CurrentItem.Name;
+            CurrentItemMetaTitle.Text = CurrentItem.Name;
+            CurrentItemName.Text = CurrentItem.Model.ToString();
+            CurrentItemOption.Text = CurrentItem.Option;
+            CurrentItemQuantity.Text = CurrentItem.Quantity;
+            await Task.Run(()=> CurrentItemImage.BackgroundImage = CurrentItem.GetPhoto());
+        }
+
+        private void CurrentItemImage_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Find_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < ParseGrid.RowCount; i++)
+            {
+                ParseGrid.Rows[i].Selected = false;
+                for (int j = 0; j < ParseGrid.ColumnCount; j++)
+                    if (ParseGrid.Rows[i].Cells[j].Value != null)
+                        if (ParseGrid.Rows[i].Cells[j].Value.ToString().ToLower().Contains(FindTextBox.Text.ToLower()))
+                        {
+                            ParseGrid.Rows[i].Selected = true;
+                            break;
+                        }
             }
         }
     }

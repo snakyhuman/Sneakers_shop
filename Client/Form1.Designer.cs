@@ -29,346 +29,403 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.Парсинг = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Parse_Button = new System.Windows.Forms.Button();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.menuStrip2 = new System.Windows.Forms.MenuStrip();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.оПрограммеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.Reload = new System.Windows.Forms.CheckBox();
+            this.CurrentItemGroupBox = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.button2 = new System.Windows.Forms.Button();
-            this.сохранитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.импортToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label2 = new System.Windows.Forms.Label();
+            this.CurrentItemName = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.CurrentItemMetaTitle = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.CurrentItemOption = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.CurrentItemQuantity = new System.Windows.Forms.TextBox();
+            this.CurrentItemImage = new System.Windows.Forms.PictureBox();
+            this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.SavePhoto = new System.Windows.Forms.Button();
+            this.Save_Button = new System.Windows.Forms.Button();
+            this.Parse_Button = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.ParseGrid = new System.Windows.Forms.DataGridView();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.FindTextBox = new System.Windows.Forms.TextBox();
+            this.Find = new System.Windows.Forms.Button();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.marketItemBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.Парсинг.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            this.tabPage2.SuspendLayout();
-            this.menuStrip2.SuspendLayout();
-            this.flowLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
+            this.CurrentItemGroupBox.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CurrentItemImage)).BeginInit();
+            this.flowLayoutPanel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ParseGrid)).BeginInit();
+            this.flowLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.marketItemBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
-            // Парсинг
+            // panel1
             // 
-            this.Парсинг.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.panel1.Controls.Add(this.flowLayoutPanel2);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(10);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(454, 853);
+            this.panel1.TabIndex = 2;
+            // 
+            // flowLayoutPanel2
+            // 
+            this.flowLayoutPanel2.Controls.Add(this.Reload);
+            this.flowLayoutPanel2.Controls.Add(this.CurrentItemGroupBox);
+            this.flowLayoutPanel2.Controls.Add(this.flowLayoutPanel4);
+            this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 0);
+            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(3, 13, 3, 3);
+            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+            this.flowLayoutPanel2.Padding = new System.Windows.Forms.Padding(0, 10, 0, 0);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(454, 853);
+            this.flowLayoutPanel2.TabIndex = 1;
+            // 
+            // Reload
+            // 
+            this.Reload.AutoSize = true;
+            this.Reload.Checked = true;
+            this.Reload.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Reload.Location = new System.Drawing.Point(1, 11);
+            this.Reload.Margin = new System.Windows.Forms.Padding(1);
+            this.Reload.Name = "Reload";
+            this.Reload.Size = new System.Drawing.Size(224, 17);
+            this.Reload.TabIndex = 5;
+            this.Reload.Text = "Обновлять данные по мере Парсинга?";
+            this.Reload.UseVisualStyleBackColor = true;
+            this.Reload.CheckedChanged += new System.EventHandler(this.Reload_CheckedChanged);
+            // 
+            // CurrentItemGroupBox
+            // 
+            this.CurrentItemGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Парсинг.Controls.Add(this.tabPage1);
-            this.Парсинг.Controls.Add(this.tabPage2);
-            this.Парсинг.Location = new System.Drawing.Point(0, 56);
-            this.Парсинг.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
-            this.Парсинг.Multiline = true;
-            this.Парсинг.Name = "Парсинг";
-            this.Парсинг.SelectedIndex = 0;
-            this.Парсинг.Size = new System.Drawing.Size(2916, 1347);
-            this.Парсинг.TabIndex = 0;
+            this.CurrentItemGroupBox.Controls.Add(this.flowLayoutPanel3);
+            this.CurrentItemGroupBox.Controls.Add(this.CurrentItemImage);
+            this.CurrentItemGroupBox.Location = new System.Drawing.Point(3, 32);
+            this.CurrentItemGroupBox.Name = "CurrentItemGroupBox";
+            this.CurrentItemGroupBox.Size = new System.Drawing.Size(435, 493);
+            this.CurrentItemGroupBox.TabIndex = 6;
+            this.CurrentItemGroupBox.TabStop = false;
             // 
-            // tabPage1
+            // flowLayoutPanel3
             // 
-            this.tabPage1.AutoScroll = true;
-            this.tabPage1.Controls.Add(this.panel1);
-            this.tabPage1.Controls.Add(this.dataGridView1);
-            this.tabPage1.Location = new System.Drawing.Point(10, 48);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(8, 7, 8, 7);
-            this.tabPage1.Size = new System.Drawing.Size(2896, 1289);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Парсинг";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.flowLayoutPanel3.Controls.Add(this.label2);
+            this.flowLayoutPanel3.Controls.Add(this.CurrentItemName);
+            this.flowLayoutPanel3.Controls.Add(this.label3);
+            this.flowLayoutPanel3.Controls.Add(this.CurrentItemMetaTitle);
+            this.flowLayoutPanel3.Controls.Add(this.label4);
+            this.flowLayoutPanel3.Controls.Add(this.CurrentItemOption);
+            this.flowLayoutPanel3.Controls.Add(this.label5);
+            this.flowLayoutPanel3.Controls.Add(this.CurrentItemQuantity);
+            this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 430);
+            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(429, 60);
+            this.flowLayoutPanel3.TabIndex = 3;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(48, 13);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Артикул";
+            // 
+            // CurrentItemName
+            // 
+            this.CurrentItemName.Enabled = false;
+            this.CurrentItemName.Location = new System.Drawing.Point(57, 3);
+            this.CurrentItemName.Name = "CurrentItemName";
+            this.CurrentItemName.Size = new System.Drawing.Size(58, 20);
+            this.CurrentItemName.TabIndex = 1;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(121, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(61, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Заголовок";
+            // 
+            // CurrentItemMetaTitle
+            // 
+            this.CurrentItemMetaTitle.Enabled = false;
+            this.CurrentItemMetaTitle.Location = new System.Drawing.Point(188, 3);
+            this.CurrentItemMetaTitle.Name = "CurrentItemMetaTitle";
+            this.CurrentItemMetaTitle.Size = new System.Drawing.Size(238, 20);
+            this.CurrentItemMetaTitle.TabIndex = 2;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(3, 26);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(46, 13);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "Размер";
+            // 
+            // CurrentItemOption
+            // 
+            this.CurrentItemOption.Enabled = false;
+            this.CurrentItemOption.Location = new System.Drawing.Point(55, 29);
+            this.CurrentItemOption.Name = "CurrentItemOption";
+            this.CurrentItemOption.Size = new System.Drawing.Size(60, 20);
+            this.CurrentItemOption.TabIndex = 3;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(121, 26);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(77, 13);
+            this.label5.TabIndex = 7;
+            this.label5.Text = "Осталось пар";
+            // 
+            // CurrentItemQuantity
+            // 
+            this.CurrentItemQuantity.Enabled = false;
+            this.CurrentItemQuantity.Location = new System.Drawing.Point(204, 29);
+            this.CurrentItemQuantity.Name = "CurrentItemQuantity";
+            this.CurrentItemQuantity.Size = new System.Drawing.Size(53, 20);
+            this.CurrentItemQuantity.TabIndex = 8;
+            // 
+            // CurrentItemImage
+            // 
+            this.CurrentItemImage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.CurrentItemImage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CurrentItemImage.Location = new System.Drawing.Point(3, 16);
+            this.CurrentItemImage.Name = "CurrentItemImage";
+            this.CurrentItemImage.Size = new System.Drawing.Size(429, 474);
+            this.CurrentItemImage.TabIndex = 0;
+            this.CurrentItemImage.TabStop = false;
+            this.CurrentItemImage.Click += new System.EventHandler(this.CurrentItemImage_Click);
+            // 
+            // flowLayoutPanel4
+            // 
+            this.flowLayoutPanel4.Controls.Add(this.label1);
+            this.flowLayoutPanel4.Controls.Add(this.progressBar1);
+            this.flowLayoutPanel4.Controls.Add(this.SavePhoto);
+            this.flowLayoutPanel4.Controls.Add(this.Save_Button);
+            this.flowLayoutPanel4.Controls.Add(this.Parse_Button);
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(3, 531);
+            this.flowLayoutPanel4.Name = "flowLayoutPanel4";
+            this.flowLayoutPanel4.Size = new System.Drawing.Size(435, 137);
+            this.flowLayoutPanel4.TabIndex = 7;
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(3, 23);
+            this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBar1.Location = new System.Drawing.Point(6, 34);
+            this.progressBar1.Margin = new System.Windows.Forms.Padding(6, 1, 1, 1);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(1199, 70);
+            this.progressBar1.Size = new System.Drawing.Size(423, 28);
             this.progressBar1.TabIndex = 2;
             // 
-            // dataGridView1
+            // SavePhoto
             // 
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
-            this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(8, 7);
-            this.dataGridView1.MinimumSize = new System.Drawing.Size(100, 100);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowTemplate.Height = 40;
-            this.dataGridView1.Size = new System.Drawing.Size(2880, 1275);
-            this.dataGridView1.TabIndex = 1;
-            this.dataGridView1.Paint += new System.Windows.Forms.PaintEventHandler(this.dataGridView1_Paint);
+            this.SavePhoto.Dock = System.Windows.Forms.DockStyle.Left;
+            this.SavePhoto.Enabled = false;
+            this.SavePhoto.Location = new System.Drawing.Point(1, 64);
+            this.SavePhoto.Margin = new System.Windows.Forms.Padding(1);
+            this.SavePhoto.Name = "SavePhoto";
+            this.SavePhoto.Size = new System.Drawing.Size(221, 28);
+            this.SavePhoto.TabIndex = 3;
+            this.SavePhoto.Text = "Загрузить фото";
+            this.SavePhoto.UseVisualStyleBackColor = true;
+            this.SavePhoto.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // Save_Button
+            // 
+            this.Save_Button.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.Save_Button.Enabled = false;
+            this.Save_Button.Location = new System.Drawing.Point(224, 64);
+            this.Save_Button.Margin = new System.Windows.Forms.Padding(1);
+            this.Save_Button.Name = "Save_Button";
+            this.Save_Button.Size = new System.Drawing.Size(205, 28);
+            this.Save_Button.TabIndex = 1;
+            this.Save_Button.Text = "Сохранить";
+            this.Save_Button.UseVisualStyleBackColor = true;
+            this.Save_Button.Click += new System.EventHandler(this.сохранитьToolStripMenuItem_Click);
             // 
             // Parse_Button
             // 
-            this.Parse_Button.Location = new System.Drawing.Point(1208, 23);
+            this.Parse_Button.Location = new System.Drawing.Point(1, 94);
+            this.Parse_Button.Margin = new System.Windows.Forms.Padding(1);
             this.Parse_Button.Name = "Parse_Button";
-            this.Parse_Button.Size = new System.Drawing.Size(161, 70);
+            this.Parse_Button.Size = new System.Drawing.Size(428, 28);
             this.Parse_Button.TabIndex = 0;
-            this.Parse_Button.Text = "Parse";
+            this.Parse_Button.Text = "Парсить";
             this.Parse_Button.UseVisualStyleBackColor = true;
             this.Parse_Button.Click += new System.EventHandler(this.Parse_Button_Click);
             // 
-            // tabPage2
+            // label1
             // 
-            this.tabPage2.Controls.Add(this.flowLayoutPanel2);
-            this.tabPage2.Location = new System.Drawing.Point(10, 48);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(8, 7, 8, 7);
-            this.tabPage2.Size = new System.Drawing.Size(2896, 1289);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Импорт";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(0, 5);
+            this.label1.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
+            this.label1.Name = "label1";
+            this.label1.Padding = new System.Windows.Forms.Padding(10, 10, 10, 0);
+            this.label1.Size = new System.Drawing.Size(121, 23);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Всего элементов: ";
+            // 
+            // ParseGrid
+            // 
+            this.ParseGrid.AllowUserToAddRows = false;
+            this.ParseGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.ParseGrid.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.ParseGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.ParseGrid.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
+            this.ParseGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ParseGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ParseGrid.GridColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ParseGrid.Location = new System.Drawing.Point(0, 0);
+            this.ParseGrid.Margin = new System.Windows.Forms.Padding(1);
+            this.ParseGrid.MinimumSize = new System.Drawing.Size(40, 40);
+            this.ParseGrid.Name = "ParseGrid";
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(1);
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.ParseGrid.RowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.ParseGrid.RowTemplate.Height = 40;
+            this.ParseGrid.Size = new System.Drawing.Size(906, 853);
+            this.ParseGrid.TabIndex = 1;
+            this.ParseGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ParseGrid_CellClick);
             // 
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // menuStrip2
-            // 
-            this.menuStrip2.ImageScalingSize = new System.Drawing.Size(40, 40);
-            this.menuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.оПрограммеToolStripMenuItem});
-            this.menuStrip2.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip2.Name = "menuStrip2";
-            this.menuStrip2.Size = new System.Drawing.Size(2933, 49);
-            this.menuStrip2.TabIndex = 1;
-            this.menuStrip2.Text = "menuStrip2";
-            // 
-            // fileToolStripMenuItem
-            // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.сохранитьToolStripMenuItem,
-            this.импортToolStripMenuItem});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(100, 45);
-            this.fileToolStripMenuItem.Text = "Файл";
-            // 
-            // оПрограммеToolStripMenuItem
-            // 
-            this.оПрограммеToolStripMenuItem.Name = "оПрограммеToolStripMenuItem";
-            this.оПрограммеToolStripMenuItem.Size = new System.Drawing.Size(216, 48);
-            this.оПрограммеToolStripMenuItem.Text = "О программе";
-            this.оПрограммеToolStripMenuItem.Click += new System.EventHandler(this.оПрограммеToolStripMenuItem_Click);
-            // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.Controls.Add(this.progressBar1);
-            this.flowLayoutPanel1.Controls.Add(this.Parse_Button);
-            this.flowLayoutPanel1.Controls.Add(this.button1);
-            this.flowLayoutPanel1.Controls.Add(this.button4);
-            this.flowLayoutPanel1.Controls.Add(this.checkBox1);
+            this.flowLayoutPanel1.Controls.Add(this.FindTextBox);
+            this.flowLayoutPanel1.Controls.Add(this.Find);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 1414);
-            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 30, 3, 3);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 853);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(1, 12, 1, 1);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(0, 20, 0, 0);
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(2933, 118);
+            this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1364, 46);
             this.flowLayoutPanel1.TabIndex = 4;
-            this.flowLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.flowLayoutPanel1_Paint);
             // 
-            // button1
+            // FindTextBox
             // 
-            this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(1375, 23);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(266, 70);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "Загрузить фото";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.FindTextBox.Location = new System.Drawing.Point(3, 11);
+            this.FindTextBox.Name = "FindTextBox";
+            this.FindTextBox.Size = new System.Drawing.Size(163, 20);
+            this.FindTextBox.TabIndex = 9;
             // 
-            // checkBox1
+            // Find
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Checked = true;
-            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Location = new System.Drawing.Point(1869, 23);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(566, 36);
-            this.checkBox1.TabIndex = 5;
-            this.checkBox1.Text = "Обновлять данные по мере Парсинга?";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.Find.Location = new System.Drawing.Point(172, 11);
+            this.Find.Name = "Find";
+            this.Find.Size = new System.Drawing.Size(75, 23);
+            this.Find.TabIndex = 10;
+            this.Find.Text = "Найти";
+            this.Find.UseVisualStyleBackColor = true;
+            this.Find.Click += new System.EventHandler(this.Find_Click);
             // 
-            // panel1
+            // splitContainer1
             // 
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(2086, 7);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(802, 1275);
-            this.panel1.TabIndex = 2;
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
             // 
-            // label1
+            // splitContainer1.Panel1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(37, 26);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(255, 32);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Всего элементов: ";
+            this.splitContainer1.Panel1.Controls.Add(this.panel1);
             // 
-            // flowLayoutPanel2
+            // splitContainer1.Panel2
             // 
-            this.flowLayoutPanel2.Controls.Add(this.flowLayoutPanel3);
-            this.flowLayoutPanel2.Controls.Add(this.dataGridView2);
-            this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(8, 7);
-            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(2880, 1275);
-            this.flowLayoutPanel2.TabIndex = 0;
-            // 
-            // flowLayoutPanel3
-            // 
-            this.flowLayoutPanel3.Controls.Add(this.button2);
-            this.flowLayoutPanel3.Controls.Add(this.button3);
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 3);
-            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(631, 1000);
-            this.flowLayoutPanel3.TabIndex = 0;
-            this.flowLayoutPanel3.Paint += new System.Windows.Forms.PaintEventHandler(this.flowLayoutPanel3_Paint);
-            // 
-            // dataGridView2
-            // 
-            this.dataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(640, 3);
-            this.dataGridView2.MinimumSize = new System.Drawing.Size(100, 100);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.RowTemplate.Height = 40;
-            this.dataGridView2.Size = new System.Drawing.Size(2224, 1000);
-            this.dataGridView2.TabIndex = 2;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(3, 3);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(468, 83);
-            this.button2.TabIndex = 0;
-            this.button2.Text = "Импорт";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // сохранитьToolStripMenuItem
-            // 
-            this.сохранитьToolStripMenuItem.Name = "сохранитьToolStripMenuItem";
-            this.сохранитьToolStripMenuItem.Size = new System.Drawing.Size(396, 46);
-            this.сохранитьToolStripMenuItem.Text = "Сохранить";
-            this.сохранитьToolStripMenuItem.Click += new System.EventHandler(this.сохранитьToolStripMenuItem_Click);
-            // 
-            // импортToolStripMenuItem
-            // 
-            this.импортToolStripMenuItem.Name = "импортToolStripMenuItem";
-            this.импортToolStripMenuItem.Size = new System.Drawing.Size(396, 46);
-            this.импортToolStripMenuItem.Text = "Импорт";
-            this.импортToolStripMenuItem.Click += new System.EventHandler(this.button2_Click);
+            this.splitContainer1.Panel2.Controls.Add(this.ParseGrid);
+            this.splitContainer1.Size = new System.Drawing.Size(1364, 853);
+            this.splitContainer1.SplitterDistance = 454;
+            this.splitContainer1.TabIndex = 5;
             // 
             // marketItemBindingSource
             // 
             this.marketItemBindingSource.DataSource = typeof(ParserLib.MarketItem);
             // 
-            // button3
-            // 
-            this.button3.Enabled = false;
-            this.button3.Location = new System.Drawing.Point(3, 92);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(468, 83);
-            this.button3.TabIndex = 1;
-            this.button3.Text = "Сохранить";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // button4
-            // 
-            this.button4.Enabled = false;
-            this.button4.Location = new System.Drawing.Point(1647, 23);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(216, 70);
-            this.button4.TabIndex = 1;
-            this.button4.Text = "Сохранить";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.сохранитьToolStripMenuItem_Click);
-            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(240F, 240F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(2933, 1532);
+            this.ClientSize = new System.Drawing.Size(1364, 899);
+            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.flowLayoutPanel1);
-            this.Controls.Add(this.Парсинг);
-            this.Controls.Add(this.menuStrip2);
-            this.MainMenuStrip = this.menuStrip2;
-            this.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.Name = "Form1";
             this.ShowIcon = false;
             this.Text = "Парсер";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.SizeChanged += new System.EventHandler(this.Form1_SizeChanged);
-            this.Парсинг.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            this.tabPage2.ResumeLayout(false);
-            this.menuStrip2.ResumeLayout(false);
-            this.menuStrip2.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.flowLayoutPanel2.ResumeLayout(false);
+            this.flowLayoutPanel2.PerformLayout();
+            this.CurrentItemGroupBox.ResumeLayout(false);
+            this.flowLayoutPanel3.ResumeLayout(false);
+            this.flowLayoutPanel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.CurrentItemImage)).EndInit();
+            this.flowLayoutPanel4.ResumeLayout(false);
+            this.flowLayoutPanel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ParseGrid)).EndInit();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.flowLayoutPanel2.ResumeLayout(false);
-            this.flowLayoutPanel3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.marketItemBindingSource)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.TabControl Парсинг;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView ParseGrid;
         private System.Windows.Forms.Button Parse_Button;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.BindingSource marketItemBindingSource;
-        private System.Windows.Forms.MenuStrip menuStrip2;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem оПрограммеToolStripMenuItem;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Button SavePhoto;
+        private System.Windows.Forms.CheckBox Reload;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button Save_Button;
+        private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
+        private System.Windows.Forms.GroupBox CurrentItemGroupBox;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
-        private System.Windows.Forms.DataGridView dataGridView2;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.ToolStripMenuItem сохранитьToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem импортToolStripMenuItem;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox CurrentItemName;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox CurrentItemMetaTitle;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox CurrentItemOption;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox CurrentItemQuantity;
+        private System.Windows.Forms.PictureBox CurrentItemImage;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel4;
+        private System.Windows.Forms.TextBox FindTextBox;
+        private System.Windows.Forms.Button Find;
     }
 }
 

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParserLib", "ParserLib\Pars
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{1C98CEF6-28BA-415F-B1E7-F0D679D21AD5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientWPF", "ClientWPF\ClientWPF.csproj", "{10FCCEB7-CD0E-4063-8E09-CEDE704899E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{1C98CEF6-28BA-415F-B1E7-F0D679D21AD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C98CEF6-28BA-415F-B1E7-F0D679D21AD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C98CEF6-28BA-415F-B1E7-F0D679D21AD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10FCCEB7-CD0E-4063-8E09-CEDE704899E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10FCCEB7-CD0E-4063-8E09-CEDE704899E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10FCCEB7-CD0E-4063-8E09-CEDE704899E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10FCCEB7-CD0E-4063-8E09-CEDE704899E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
