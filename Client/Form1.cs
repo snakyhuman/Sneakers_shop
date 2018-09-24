@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -19,13 +20,31 @@ namespace Client
         MarketItems Items = new MarketItems();
         BindingSource source = new BindingSource();
         MarketItems Imported = new MarketItems();
-        BindingSource Imp_source = new BindingSource();
         public Form1()
         {
             InitializeComponent();
 
             //dataGridView2.DataSource = Imp_source;
             ParseGrid.DataSource = source;
+
+            try
+            {
+                int maxCount = MarketItems.PageCount("http://www.sports-lin777.com");
+
+
+                From.Maximum = maxCount;
+                To.Maximum = maxCount;
+                From.Minimum = 1;
+                To.Minimum = 1;
+                To.Value = maxCount;
+            }
+            catch
+            {
+                MessageBox.Show("Сайт не работает. \nНет соединения!");
+                this.Close();
+            }
+            Browser.Visible = false;
+            //Browser.Url = new Uri("https://krosshop24.ru/admin");
         }
 
 
@@ -34,39 +53,65 @@ namespace Client
         {
             try
             {
-                progressBar1.Maximum = MarketItems.PageCount("http://www.sports-lin777.com") * 16;
+
+                progressBar1.Maximum = ((int)(To.Value - From.Value) + 1) * 16;
+
+
+
                 timer1.Interval = 1000;
                 timer1.Start();
                 ParseGrid.ReadOnly = true;
                 Parse_Button.Enabled = false;
-                if (await Items.ParseAsync("http://www.sports-lin777.com") == true)
+                From.Enabled = false;
+                To.Enabled = false;
+                PhotoAfterParse.Enabled = false;
+                if (await Items.ParseAsync("http://www.sports-lin777.com", (int)From.Value, (int)To.Value) == true)
                 {
                     MessageBox.Show("Парсинг закончен");
                     SavePhoto.Enabled = true;
-                    ParseGrid.ReadOnly = false;
-                    Parse_Button.Enabled = true;
                     Save_Button.Enabled = true;
                     Reload.Checked = false;
+                    if (PhotoAfterParse.Enabled)
+                    {
+                        button1_Click(sender, e);
+                    }
                 }
 
             }
             catch
             {
                 MessageBox.Show("Нет подключения к Интернету!");
-                Parse_Button.Enabled = true;
             }
+            ParseGrid.ReadOnly = false;
+            Parse_Button.Enabled = true;
+            From.Enabled = true;
+            To.Enabled = true;
+            PhotoAfterParse.Enabled = true;
         }
+
+
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            label1.Text = "Всего элементов: " + Items.Count+" из~ "+ progressBar1.Maximum;
-            if (progressBar1.Maximum >= Items.Count)                
+            float persent = 0;
+            if (Items.Count > 0)
+            {
+                try
+                {
+                    persent = (float)((float)Items.Count / ((float)progressBar1.Maximum / 100));
+                }
+                catch { }
+
+            }
+
+            label1.Text = "Всего элементов: " + Items.Count + " из " + progressBar1.Maximum + "                       " + persent + "%";
+            if (progressBar1.Maximum >= Items.Count)
             { progressBar1.Value = Items.Count; }
             progressBar1.Refresh();
             if (Reload.Checked)
-            {  
+            {
 
-                
+
                 ParseGrid.Refresh();
                 //BindingSource source = new BindingSource(Items.ToArray(),"");
                 // source.Clear();            
@@ -94,9 +139,9 @@ namespace Client
             }
 
             //dataGridView1.DataSource = source;
-        }        
+        }
 
-  
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -109,7 +154,7 @@ namespace Client
                         WebClient client = new WebClient();
                         Uri uri = new Uri(a.Main_image);
                         client.DownloadFileAsync(uri, fd.SelectedPath + "/" + a.Model + ".jpg");
-                       
+
                         //await Task.Run(() => a.GetPhoto().Save(fd.SelectedPath + "/" + a.Model+".jpg"));
                     }
                 }
@@ -153,18 +198,20 @@ namespace Client
         {
             using (OpenFileDialog fd = new OpenFileDialog())
             {
+                fd.Title = "Выберите EXCEL файл, в который хотите сохранить результаты!";
                 fd.Filter = "Excel Documents|*.xlsx";
 
                 if (fd.ShowDialog() == DialogResult.OK)
                 {
                     MarketItems.Export(fd.FileName, Items);
+                    Process.Start(fd.FileName);
                 }
-            }                
+            }
         }
 
         private void Form1_SizeChanged(object sender, EventArgs e)
         {
-           
+
         }
 
         private void оПрограммеToolStripMenuItem_Click(object sender, EventArgs e)
@@ -198,13 +245,13 @@ namespace Client
         {
             var a = source[ParseGrid.CurrentRow.Index];
             ParseGrid.CurrentRow.Selected = true;
-            var CurrentItem =(MarketItem)a;
+            var CurrentItem = (MarketItem)a;
             CurrentItemGroupBox.Text = CurrentItem.Name;
             CurrentItemMetaTitle.Text = CurrentItem.Name;
             CurrentItemName.Text = CurrentItem.Model.ToString();
             CurrentItemOption.Text = CurrentItem.Option;
             CurrentItemQuantity.Text = CurrentItem.Quantity;
-            await Task.Run(()=> CurrentItemImage.BackgroundImage = CurrentItem.GetPhoto());
+            await Task.Run(() => CurrentItemImage.BackgroundImage = CurrentItem.GetPhoto());
         }
 
         private void CurrentItemImage_Click(object sender, EventArgs e)
@@ -226,5 +273,84 @@ namespace Client
                         }
             }
         }
+
+        private void To_ValueChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (To.Value < From.Value)
+                {
+                    From.Value = To.Value;
+                }
+            }
+            catch { }
+
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        public string send(string url, string par)
+        {
+            String secondStepForm3 = par;
+            HttpWebRequest request3 = (HttpWebRequest)WebRequest.Create(url);
+            request3.UserAgent = "Opera/9.80";
+            request3.Method = "POST";
+            request3.ContentType = "application/x-www-form-urlencoded";
+            byte[] EncodedPostParams3 = Encoding.Default.GetBytes(secondStepForm3);
+            request3.ContentLength = EncodedPostParams3.Length;
+            request3.GetRequestStream().Write(EncodedPostParams3, 0, EncodedPostParams3.Length);
+            request3.GetRequestStream().Close();
+            HttpWebResponse response = (HttpWebResponse)request3.GetResponse();
+            string lol = new StreamReader(response.GetResponseStream(), Encoding.UTF8).ReadToEnd();
+            return lol;
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            //Browser.Visible = !Browser.Visible;
+            //if (Browser.Visible)
+            //{
+            //    BrowButton.Text = "Закрыть панель";
+            //}
+            //else BrowButton.Text = "Админ-Панель";
+            //Reload.Checked = false;
+
+            //string loginURI = "https://krosshop24.ru/admin/index.php?route=common/login";
+            //string username = "admin";
+            //string password = "kDa7f42L";
+            //string reqString = "username=" + username + "&password=" + password;
+            //byte[] requestData = Encoding.UTF8.GetBytes(reqString);
+            //CookieContainer container = new CookieContainer();
+
+            //var request = (HttpWebRequest)WebRequest.Create(loginURI);
+            //request.AllowAutoRedirect = true;
+            //request.Method = "POST";
+            //request.CookieContainer = container;
+            //request.ContentType = "application/x-www-form-urlencoded";
+            //request.ContentLength = requestData.Length;
+
+            //using (Stream S = request.GetRequestStream())
+            //    S.Write(requestData, 0, requestData.Length);
+
+            //using (var response = (HttpWebResponse)request.GetResponse())
+            //{
+            //    if (response.StatusCode == HttpStatusCode.OK)
+            //    {
+            //     //Browser. = WebRequest.Create("https://krosshop24.ru/admin").GetResponse();                    
+            //    }
+            //    var newPageCode = new StreamReader(response.GetResponseStream()).ReadToEnd();
+            //}
+
+
+
+
+
+
+
+        }
     }
 }
+

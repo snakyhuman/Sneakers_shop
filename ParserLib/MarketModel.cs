@@ -190,7 +190,7 @@ namespace ParserLib
         {
 
         }
-   
+
         public Image GetPhoto()
         {
             using (WebClient wClient = new WebClient())
@@ -205,11 +205,11 @@ namespace ParserLib
                         return Image.FromStream(ms, true);
                     }
                 }
-                catch 
+                catch
                 {
                     return null;
                 }
-                
+
             }
         }
 
@@ -306,10 +306,10 @@ namespace ParserLib
         public static void Export(string filename, MarketItems item)
         {
             MarketItems items = new MarketItems();
-            foreach(var a in item)
+            foreach (var a in item)
             {
                 items.Add(a);
-                if(a.ChildrenItems.Count != 0)
+                if (a.ChildrenItems.Count != 0)
                 {
                     foreach (var b in a.ChildrenItems)
                     {
@@ -326,9 +326,9 @@ namespace ParserLib
                 Dictionary<string, List<string>> Colls = new Dictionary<string, List<string>>();
                 for (int col = 1; col <= totalColumns; col++)
                 {
-                    if(Worksheet.Cells[1,col].Value.ToString() == "*Model")
+                    if (Worksheet.Cells[1, col].Value.ToString() == "*Model")
                     {
-                        for(int i = 0; i<items.Count; i++)
+                        for (int i = 0; i < items.Count; i++)
                         {
                             Worksheet.Cells[i + 2, col, i + 2, col].Value = items[i].Model;
                         }
@@ -405,10 +405,10 @@ namespace ParserLib
                     }
                     if (Worksheet.Cells[1, col].Value.ToString() == "Main image")
                     {// "catalog/tovar/" + a.Model+".jpg"
-                     
+
                         for (int i = 0; i < items.Count; i++)
                         {
-                            Worksheet.Cells[i + 2, col, i + 2, col].Value = "catalog/tovar/" + items[i].Model+".jpg";
+                            Worksheet.Cells[i + 2, col, i + 2, col].Value = "catalog/tovar/" + items[i].Model + ".jpg";
                         }
                     }
                     xlPackage.Save();
@@ -475,14 +475,14 @@ namespace ParserLib
 
         }
 
-        public void ParseFrom(string url)
+        public void ParseFrom(string url, int StartPage, int FinishPage)
         {
             try
             {
                 var doc = new HtmlWeb().Load(url + "/goods.php");
-                int pageCount = MarketItems.PageCount(url);
+                // int pageCount = MarketItems.PageCount(url);
                 //проверка по пагинации
-                for (int page = 1; page <= pageCount; page++)
+                for (int page = StartPage; page <= FinishPage; page++)
                 {
                     doc = new HtmlWeb().Load(url + "/goods.php?cid=5&page=" + page); //текущая страница
                     var pageGoods = doc.DocumentNode.SelectNodes("//div[@class='ernr']/ul/li/div/h3/a").
@@ -504,19 +504,19 @@ namespace ParserLib
                                 var Quantities = ConvertList(goodNode.SelectNodes(".//div[@id='tabconten']/ul/li").Select(a => a.InnerText.Replace("双", "")).ToList());//
 
                                 item.Model = Count != 0 ? this.Max(a => a.Model) + 1 : 1;
-                                
+
                                 item.Name = goodNode.SelectSingleNode(".//h6").InnerText + " " + item.Model;
                                 item.Description = "<p><br></p>";
                                 item.SEO_url = item.Name.Replace(" ", "-");
                                 item.Out_stock_status = "";
                                 item.Option_type = "radio";
                                 item.Price = "";//сам вводит                                
-                                item.Main_image = url +"/"+ goodNode.SelectSingleNode(".//img").ChildAttributes("src").FirstOrDefault().Value;
+                                item.Main_image = url + "/" + goodNode.SelectSingleNode(".//img").ChildAttributes("src").FirstOrDefault().Value;
                                 /*TODO*/
                                 item.Manufacturer = Manuf(item.Name);
                                 item.Option = MarketItems.Option(Options);
                                 string resName = "";
-                                if(item.Manufacturer.Contains("Timber"))
+                                if (item.Manufacturer.Contains("Timber"))
                                 {
                                     resName += "Ботинки";
                                 }
@@ -570,14 +570,22 @@ namespace ParserLib
             }
         }
 
-
+        public void ParseFrom(string url)
+        {
+            ParseFrom(url, 1, MarketItems.PageCount(url));
+        }
 
         public async Task<bool> ParseAsync(string url)
         {
             await Task.Run(() => this.ParseFrom(url));
             return true;
         }
+
+        public async Task<bool> ParseAsync(string url, int StartPage, int FinishPage)
+        {
+            await Task.Run(() => this.ParseFrom(url, StartPage, FinishPage));
+            return true;
+        } 
     }
-
-
 }
+

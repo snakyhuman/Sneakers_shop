@@ -29,10 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
-            this.Reload = new System.Windows.Forms.CheckBox();
             this.CurrentItemGroupBox = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
@@ -45,11 +44,19 @@
             this.CurrentItemQuantity = new System.Windows.Forms.TextBox();
             this.CurrentItemImage = new System.Windows.Forms.PictureBox();
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
+            this.label1 = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.SavePhoto = new System.Windows.Forms.Button();
             this.Save_Button = new System.Windows.Forms.Button();
             this.Parse_Button = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.From = new System.Windows.Forms.NumericUpDown();
+            this.To = new System.Windows.Forms.NumericUpDown();
+            this.label7 = new System.Windows.Forms.Label();
+            this.PhotoAfterParse = new System.Windows.Forms.CheckBox();
+            this.Reload = new System.Windows.Forms.CheckBox();
             this.ParseGrid = new System.Windows.Forms.DataGridView();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -57,12 +64,20 @@
             this.Find = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.marketItemBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.BrowButton = new System.Windows.Forms.Button();
+            this.Browser = new System.Windows.Forms.WebBrowser();
             this.panel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.CurrentItemGroupBox.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CurrentItemImage)).BeginInit();
             this.flowLayoutPanel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.From)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.To)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ParseGrid)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -84,7 +99,6 @@
             // 
             // flowLayoutPanel2
             // 
-            this.flowLayoutPanel2.Controls.Add(this.Reload);
             this.flowLayoutPanel2.Controls.Add(this.CurrentItemGroupBox);
             this.flowLayoutPanel2.Controls.Add(this.flowLayoutPanel4);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -95,27 +109,13 @@
             this.flowLayoutPanel2.Size = new System.Drawing.Size(454, 853);
             this.flowLayoutPanel2.TabIndex = 1;
             // 
-            // Reload
-            // 
-            this.Reload.AutoSize = true;
-            this.Reload.Checked = true;
-            this.Reload.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.Reload.Location = new System.Drawing.Point(1, 11);
-            this.Reload.Margin = new System.Windows.Forms.Padding(1);
-            this.Reload.Name = "Reload";
-            this.Reload.Size = new System.Drawing.Size(224, 17);
-            this.Reload.TabIndex = 5;
-            this.Reload.Text = "Обновлять данные по мере Парсинга?";
-            this.Reload.UseVisualStyleBackColor = true;
-            this.Reload.CheckedChanged += new System.EventHandler(this.Reload_CheckedChanged);
-            // 
             // CurrentItemGroupBox
             // 
             this.CurrentItemGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.CurrentItemGroupBox.Controls.Add(this.flowLayoutPanel3);
             this.CurrentItemGroupBox.Controls.Add(this.CurrentItemImage);
-            this.CurrentItemGroupBox.Location = new System.Drawing.Point(3, 32);
+            this.CurrentItemGroupBox.Location = new System.Drawing.Point(3, 13);
             this.CurrentItemGroupBox.Name = "CurrentItemGroupBox";
             this.CurrentItemGroupBox.Size = new System.Drawing.Size(435, 493);
             this.CurrentItemGroupBox.TabIndex = 6;
@@ -223,10 +223,23 @@
             this.flowLayoutPanel4.Controls.Add(this.SavePhoto);
             this.flowLayoutPanel4.Controls.Add(this.Save_Button);
             this.flowLayoutPanel4.Controls.Add(this.Parse_Button);
-            this.flowLayoutPanel4.Location = new System.Drawing.Point(3, 531);
+            this.flowLayoutPanel4.Controls.Add(this.splitContainer2);
+            this.flowLayoutPanel4.Controls.Add(this.BrowButton);
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(3, 512);
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
-            this.flowLayoutPanel4.Size = new System.Drawing.Size(435, 137);
+            this.flowLayoutPanel4.Size = new System.Drawing.Size(435, 291);
             this.flowLayoutPanel4.TabIndex = 7;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(0, 5);
+            this.label1.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
+            this.label1.Name = "label1";
+            this.label1.Padding = new System.Windows.Forms.Padding(10, 10, 10, 0);
+            this.label1.Size = new System.Drawing.Size(121, 23);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Всего элементов: ";
             // 
             // progressBar1
             // 
@@ -275,16 +288,96 @@
             this.Parse_Button.UseVisualStyleBackColor = true;
             this.Parse_Button.Click += new System.EventHandler(this.Parse_Button_Click);
             // 
-            // label1
+            // splitContainer2
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(0, 5);
-            this.label1.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
-            this.label1.Name = "label1";
-            this.label1.Padding = new System.Windows.Forms.Padding(10, 10, 10, 0);
-            this.label1.Size = new System.Drawing.Size(121, 23);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Всего элементов: ";
+            this.splitContainer2.Location = new System.Drawing.Point(3, 126);
+            this.splitContainer2.Name = "splitContainer2";
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.label8);
+            this.splitContainer2.Panel1.Controls.Add(this.label6);
+            this.splitContainer2.Panel1.Controls.Add(this.From);
+            this.splitContainer2.Panel1.Controls.Add(this.To);
+            this.splitContainer2.Panel1.Controls.Add(this.label7);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.PhotoAfterParse);
+            this.splitContainer2.Panel2.Controls.Add(this.Reload);
+            this.splitContainer2.Size = new System.Drawing.Size(426, 100);
+            this.splitContainer2.SplitterDistance = 204;
+            this.splitContainer2.TabIndex = 9;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 15);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(126, 13);
+            this.label8.TabIndex = 9;
+            this.label8.Text = "ПАРСИТЬ СТРАНИЦЫ:";
+            this.label8.Click += new System.EventHandler(this.label8_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 34);
+            this.label6.Margin = new System.Windows.Forms.Padding(3, 6, 3, 11);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(14, 13);
+            this.label6.TabIndex = 4;
+            this.label6.Text = "C";
+            // 
+            // From
+            // 
+            this.From.Location = new System.Drawing.Point(31, 34);
+            this.From.Name = "From";
+            this.From.Size = new System.Drawing.Size(101, 20);
+            this.From.TabIndex = 6;
+            this.From.ValueChanged += new System.EventHandler(this.To_ValueChanged);
+            // 
+            // To
+            // 
+            this.To.Location = new System.Drawing.Point(31, 58);
+            this.To.Name = "To";
+            this.To.Size = new System.Drawing.Size(101, 20);
+            this.To.TabIndex = 8;
+            this.To.ValueChanged += new System.EventHandler(this.To_ValueChanged);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 60);
+            this.label7.Margin = new System.Windows.Forms.Padding(3, 6, 3, 11);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(21, 13);
+            this.label7.TabIndex = 7;
+            this.label7.Text = "По";
+            // 
+            // PhotoAfterParse
+            // 
+            this.PhotoAfterParse.AutoSize = true;
+            this.PhotoAfterParse.Location = new System.Drawing.Point(13, 36);
+            this.PhotoAfterParse.Name = "PhotoAfterParse";
+            this.PhotoAfterParse.Size = new System.Drawing.Size(196, 17);
+            this.PhotoAfterParse.TabIndex = 6;
+            this.PhotoAfterParse.Text = "Сохранить фото после парсинга?";
+            this.PhotoAfterParse.UseVisualStyleBackColor = true;
+            // 
+            // Reload
+            // 
+            this.Reload.AutoSize = true;
+            this.Reload.Checked = true;
+            this.Reload.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Reload.Location = new System.Drawing.Point(13, 11);
+            this.Reload.Margin = new System.Windows.Forms.Padding(1, 6, 1, 1);
+            this.Reload.Name = "Reload";
+            this.Reload.Size = new System.Drawing.Size(136, 17);
+            this.Reload.TabIndex = 5;
+            this.Reload.Text = "Обновление Таблицы";
+            this.Reload.UseVisualStyleBackColor = true;
+            this.Reload.CheckedChanged += new System.EventHandler(this.Reload_CheckedChanged);
             // 
             // ParseGrid
             // 
@@ -300,11 +393,11 @@
             this.ParseGrid.Margin = new System.Windows.Forms.Padding(1);
             this.ParseGrid.MinimumSize = new System.Drawing.Size(40, 40);
             this.ParseGrid.Name = "ParseGrid";
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(1);
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.ParseGrid.RowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(1);
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.ParseGrid.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.ParseGrid.RowTemplate.Height = 40;
             this.ParseGrid.Size = new System.Drawing.Size(906, 853);
             this.ParseGrid.TabIndex = 1;
@@ -355,6 +448,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.Browser);
             this.splitContainer1.Panel2.Controls.Add(this.ParseGrid);
             this.splitContainer1.Size = new System.Drawing.Size(1364, 853);
             this.splitContainer1.SplitterDistance = 454;
@@ -363,6 +457,26 @@
             // marketItemBindingSource
             // 
             this.marketItemBindingSource.DataSource = typeof(ParserLib.MarketItem);
+            // 
+            // BrowButton
+            // 
+            this.BrowButton.Location = new System.Drawing.Point(3, 232);
+            this.BrowButton.Name = "BrowButton";
+            this.BrowButton.Size = new System.Drawing.Size(160, 23);
+            this.BrowButton.TabIndex = 10;
+            this.BrowButton.Text = "Админ-Панель";
+            this.BrowButton.UseVisualStyleBackColor = true;
+            this.BrowButton.Visible = false;
+            this.BrowButton.Click += new System.EventHandler(this.button1_Click_1);
+            // 
+            // Browser
+            // 
+            this.Browser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Browser.Location = new System.Drawing.Point(0, 0);
+            this.Browser.MinimumSize = new System.Drawing.Size(20, 20);
+            this.Browser.Name = "Browser";
+            this.Browser.Size = new System.Drawing.Size(906, 853);
+            this.Browser.TabIndex = 2;
             // 
             // Form1
             // 
@@ -379,13 +493,20 @@
             this.SizeChanged += new System.EventHandler(this.Form1_SizeChanged);
             this.panel1.ResumeLayout(false);
             this.flowLayoutPanel2.ResumeLayout(false);
-            this.flowLayoutPanel2.PerformLayout();
             this.CurrentItemGroupBox.ResumeLayout(false);
             this.flowLayoutPanel3.ResumeLayout(false);
             this.flowLayoutPanel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CurrentItemImage)).EndInit();
             this.flowLayoutPanel4.ResumeLayout(false);
             this.flowLayoutPanel4.PerformLayout();
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel1.PerformLayout();
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            this.splitContainer2.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.From)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.To)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ParseGrid)).EndInit();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
@@ -426,6 +547,15 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel4;
         private System.Windows.Forms.TextBox FindTextBox;
         private System.Windows.Forms.Button Find;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.NumericUpDown From;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.NumericUpDown To;
+        private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.CheckBox PhotoAfterParse;
+        private System.Windows.Forms.Button BrowButton;
+        private System.Windows.Forms.WebBrowser Browser;
     }
 }
 
