@@ -43,8 +43,7 @@ namespace Client
                 MessageBox.Show("Сайт не работает. \nНет соединения!");
                 this.Close();
             }
-            Browser.Visible = false;
-            //Browser.Url = new Uri("https://krosshop24.ru/admin");
+
         }
 
 
@@ -53,6 +52,8 @@ namespace Client
         {
             try
             {
+                Items.Clear();
+                source.Clear();
 
                 progressBar1.Maximum = ((int)(To.Value - From.Value) + 1) * 16;
 
@@ -151,9 +152,20 @@ namespace Client
                 {
                     foreach (var a in Items)
                     {
-                        WebClient client = new WebClient();
-                        Uri uri = new Uri(a.Main_image);
-                        client.DownloadFileAsync(uri, fd.SelectedPath + "/" + a.Model + ".jpg");
+                        if (a.Main_image != null)
+                        {
+                            try
+                            {
+                                WebClient client = new WebClient();
+                                Uri uri = new Uri(a.Main_image);
+                                client.DownloadFileAsync(uri, fd.SelectedPath + "/" + a.Model + ".jpg");
+                            }
+                            catch
+                            {
+                            }
+
+                        }
+
 
                         //await Task.Run(() => a.GetPhoto().Save(fd.SelectedPath + "/" + a.Model+".jpg"));
                     }
@@ -243,15 +255,23 @@ namespace Client
 
         private async void ParseGrid_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            CurrentItemImage.BackgroundImage = null;
             var a = source[ParseGrid.CurrentRow.Index];
             ParseGrid.CurrentRow.Selected = true;
-            var CurrentItem = (MarketItem)a;
-            CurrentItemGroupBox.Text = CurrentItem.Name;
-            CurrentItemMetaTitle.Text = CurrentItem.Name;
-            CurrentItemName.Text = CurrentItem.Model.ToString();
-            CurrentItemOption.Text = CurrentItem.Option;
-            CurrentItemQuantity.Text = CurrentItem.Quantity;
-            await Task.Run(() => CurrentItemImage.BackgroundImage = CurrentItem.GetPhoto());
+            try
+            {
+                var CurrentItem = (MarketItem)a;
+                CurrentItemGroupBox.Text = CurrentItem.Name;
+                CurrentItemMetaTitle.Text = CurrentItem.Name;
+                CurrentItemName.Text = CurrentItem.Model.ToString();
+                CurrentItemOption.Text = CurrentItem.Option;
+                CurrentItemQuantity.Text = CurrentItem.Quantity;
+                await Task.Run(() => CurrentItemImage.BackgroundImage = CurrentItem.GetPhoto());
+            }
+            catch
+            {
+
+            }
         }
 
         private void CurrentItemImage_Click(object sender, EventArgs e)
@@ -308,49 +328,6 @@ namespace Client
             return lol;
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            //Browser.Visible = !Browser.Visible;
-            //if (Browser.Visible)
-            //{
-            //    BrowButton.Text = "Закрыть панель";
-            //}
-            //else BrowButton.Text = "Админ-Панель";
-            //Reload.Checked = false;
-
-            //string loginURI = "https://krosshop24.ru/admin/index.php?route=common/login";
-            //string username = "admin";
-            //string password = "kDa7f42L";
-            //string reqString = "username=" + username + "&password=" + password;
-            //byte[] requestData = Encoding.UTF8.GetBytes(reqString);
-            //CookieContainer container = new CookieContainer();
-
-            //var request = (HttpWebRequest)WebRequest.Create(loginURI);
-            //request.AllowAutoRedirect = true;
-            //request.Method = "POST";
-            //request.CookieContainer = container;
-            //request.ContentType = "application/x-www-form-urlencoded";
-            //request.ContentLength = requestData.Length;
-
-            //using (Stream S = request.GetRequestStream())
-            //    S.Write(requestData, 0, requestData.Length);
-
-            //using (var response = (HttpWebResponse)request.GetResponse())
-            //{
-            //    if (response.StatusCode == HttpStatusCode.OK)
-            //    {
-            //     //Browser. = WebRequest.Create("https://krosshop24.ru/admin").GetResponse();                    
-            //    }
-            //    var newPageCode = new StreamReader(response.GetResponseStream()).ReadToEnd();
-            //}
-
-
-
-
-
-
-
-        }
     }
 }
 

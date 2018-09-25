@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.CurrentItemGroupBox = new System.Windows.Forms.GroupBox();
@@ -64,8 +64,6 @@
             this.Find = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.marketItemBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.BrowButton = new System.Windows.Forms.Button();
-            this.Browser = new System.Windows.Forms.WebBrowser();
             this.panel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.CurrentItemGroupBox.SuspendLayout();
@@ -94,19 +92,21 @@
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(10);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(454, 853);
+            this.panel1.Size = new System.Drawing.Size(454, 597);
             this.panel1.TabIndex = 2;
             // 
             // flowLayoutPanel2
             // 
+            this.flowLayoutPanel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.flowLayoutPanel2.Controls.Add(this.CurrentItemGroupBox);
             this.flowLayoutPanel2.Controls.Add(this.flowLayoutPanel4);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel2.ForeColor = System.Drawing.Color.Crimson;
             this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(3, 13, 3, 3);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
             this.flowLayoutPanel2.Padding = new System.Windows.Forms.Padding(0, 10, 0, 0);
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(454, 853);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(454, 597);
             this.flowLayoutPanel2.TabIndex = 1;
             // 
             // CurrentItemGroupBox
@@ -117,7 +117,7 @@
             this.CurrentItemGroupBox.Controls.Add(this.CurrentItemImage);
             this.CurrentItemGroupBox.Location = new System.Drawing.Point(3, 13);
             this.CurrentItemGroupBox.Name = "CurrentItemGroupBox";
-            this.CurrentItemGroupBox.Size = new System.Drawing.Size(435, 493);
+            this.CurrentItemGroupBox.Size = new System.Drawing.Size(435, 326);
             this.CurrentItemGroupBox.TabIndex = 6;
             this.CurrentItemGroupBox.TabStop = false;
             // 
@@ -132,7 +132,7 @@
             this.flowLayoutPanel3.Controls.Add(this.label5);
             this.flowLayoutPanel3.Controls.Add(this.CurrentItemQuantity);
             this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 430);
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 263);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
             this.flowLayoutPanel3.Size = new System.Drawing.Size(429, 60);
             this.flowLayoutPanel3.TabIndex = 3;
@@ -211,7 +211,7 @@
             this.CurrentItemImage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.CurrentItemImage.Location = new System.Drawing.Point(3, 16);
             this.CurrentItemImage.Name = "CurrentItemImage";
-            this.CurrentItemImage.Size = new System.Drawing.Size(429, 474);
+            this.CurrentItemImage.Size = new System.Drawing.Size(429, 307);
             this.CurrentItemImage.TabIndex = 0;
             this.CurrentItemImage.TabStop = false;
             this.CurrentItemImage.Click += new System.EventHandler(this.CurrentItemImage_Click);
@@ -224,10 +224,9 @@
             this.flowLayoutPanel4.Controls.Add(this.Save_Button);
             this.flowLayoutPanel4.Controls.Add(this.Parse_Button);
             this.flowLayoutPanel4.Controls.Add(this.splitContainer2);
-            this.flowLayoutPanel4.Controls.Add(this.BrowButton);
-            this.flowLayoutPanel4.Location = new System.Drawing.Point(3, 512);
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(3, 345);
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
-            this.flowLayoutPanel4.Size = new System.Drawing.Size(435, 291);
+            this.flowLayoutPanel4.Size = new System.Drawing.Size(435, 236);
             this.flowLayoutPanel4.TabIndex = 7;
             // 
             // label1
@@ -393,13 +392,13 @@
             this.ParseGrid.Margin = new System.Windows.Forms.Padding(1);
             this.ParseGrid.MinimumSize = new System.Drawing.Size(40, 40);
             this.ParseGrid.Name = "ParseGrid";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(1);
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.ParseGrid.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(1);
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.ParseGrid.RowsDefaultCellStyle = dataGridViewCellStyle1;
             this.ParseGrid.RowTemplate.Height = 40;
-            this.ParseGrid.Size = new System.Drawing.Size(906, 853);
+            this.ParseGrid.Size = new System.Drawing.Size(906, 597);
             this.ParseGrid.TabIndex = 1;
             this.ParseGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ParseGrid_CellClick);
             // 
@@ -412,11 +411,11 @@
             this.flowLayoutPanel1.Controls.Add(this.FindTextBox);
             this.flowLayoutPanel1.Controls.Add(this.Find);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 853);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 597);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(1, 12, 1, 1);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1364, 46);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1364, 66);
             this.flowLayoutPanel1.TabIndex = 4;
             // 
             // FindTextBox
@@ -448,9 +447,8 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.Browser);
             this.splitContainer1.Panel2.Controls.Add(this.ParseGrid);
-            this.splitContainer1.Size = new System.Drawing.Size(1364, 853);
+            this.splitContainer1.Size = new System.Drawing.Size(1364, 597);
             this.splitContainer1.SplitterDistance = 454;
             this.splitContainer1.TabIndex = 5;
             // 
@@ -458,32 +456,12 @@
             // 
             this.marketItemBindingSource.DataSource = typeof(ParserLib.MarketItem);
             // 
-            // BrowButton
-            // 
-            this.BrowButton.Location = new System.Drawing.Point(3, 232);
-            this.BrowButton.Name = "BrowButton";
-            this.BrowButton.Size = new System.Drawing.Size(160, 23);
-            this.BrowButton.TabIndex = 10;
-            this.BrowButton.Text = "Админ-Панель";
-            this.BrowButton.UseVisualStyleBackColor = true;
-            this.BrowButton.Visible = false;
-            this.BrowButton.Click += new System.EventHandler(this.button1_Click_1);
-            // 
-            // Browser
-            // 
-            this.Browser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Browser.Location = new System.Drawing.Point(0, 0);
-            this.Browser.MinimumSize = new System.Drawing.Size(20, 20);
-            this.Browser.Name = "Browser";
-            this.Browser.Size = new System.Drawing.Size(906, 853);
-            this.Browser.TabIndex = 2;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1364, 899);
+            this.ClientSize = new System.Drawing.Size(1364, 663);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "Form1";
@@ -554,8 +532,6 @@
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.CheckBox PhotoAfterParse;
-        private System.Windows.Forms.Button BrowButton;
-        private System.Windows.Forms.WebBrowser Browser;
     }
 }
 
